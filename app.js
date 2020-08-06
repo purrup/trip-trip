@@ -16,22 +16,22 @@ mongoose.connect(dbpath, { useNewUrlParser: true, useCreateIndex: true, useUnifi
 const db = mongoose.connection
 
 // 使用設定
-const whitelist = ['https://triptrip-backend.herokuapp.com', 'https://trip-trip.herokuapp.com']
+// const whitelist = ['https://triptrip-backend.herokuapp.com', 'https://trip-trip.herokuapp.com']
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  },
-  // origin: [
-  //   'http://localhost:8080',
-  //   'http://localhost:3000',
-  //   'https://triptrip-backend.herokuapp.com',
-  //   'https://trip-trip.herokuapp.com'
-  // ],
+  // origin: function (origin, callback) {
+  //   if (whitelist.indexOf(origin) !== -1) {
+  //     callback(null, true)
+  //   } else {
+  //     callback(new Error('Not allowed by CORS'))
+  //   }
+  // },
+  origin: [
+    'http://localhost:8080',
+    'http://localhost:3000',
+    'https://triptrip-backend.herokuapp.com',
+    'https://trip-trip.herokuapp.com'
+  ],
   credentials: true,
   maxAge: 1728000
 }
@@ -40,6 +40,25 @@ app.use(express.static('dist'))
 app.use(bodyParser.json())
 app.use(passport.initialize())
 app.use(cookieParser())
+// Add headers
+app.use(function (req, res, next) {
+
+  // Website you wish to allow to connect
+  res.setHeader('Access-Control-Allow-Origin', 'https://triptrip-backend.herokuapp.com')
+
+  // Request methods you wish to allow
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
+
+  // Request headers you wish to allow
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type')
+
+  // Set to true if you need the website to include cookies in the requests sent
+  // to the API (e.g. in case you use sessions)
+  res.setHeader('Access-Control-Allow-Credentials', true)
+
+  // Pass to next layer of middleware
+  next()
+})
 
 db.on('error', () => {
   console.log('failed to connect to mongodb!')
