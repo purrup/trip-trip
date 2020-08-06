@@ -20,7 +20,8 @@ const corsOptions = {
   origin: [
     'http://localhost:8080',
     'http://localhost:3000',
-    'https://triptrip-backend.herokuapp.com'
+    'https://triptrip-backend.herokuapp.com',
+    'https://trip-trip.herokuapp.com'
   ],
   credentials: true,
   maxAge: 1728000
