@@ -11,27 +11,47 @@ db.on('error', () => {
   console.log('error:: failed to connect to mongodb.')
 })
 
-db.once('open', () => {
+db.once('open', async () => {
   console.log('success:: connected to mongodb!')
-  db.dropCollection('users')
-    .then(() => {
+  try {
+    const userSeeds = await User.db.db.listCollections({
+      name: 'users'
+    }).toArray()
+    if (userSeeds.length > 0) {
+      db.dropCollection('users')
       console.log('successfully dropping users collection')
-      const users = userData.data.map(user => ({
-        ...user,
-        password: bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null)
-      }))
+    }
+    const users = userData.data.map(user => ({
+      ...user,
+      password: bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null)
+    }))
+    await User.insertMany(users)
+    console.log('successfully writing seed data')
+    process.exit(0)
+  } catch (error) {
+    console.log(error)
+    console.log('fail to drop users collection')
+  }
 
-      User.insertMany(users)
-        .then(users => {
-          console.log('successfully writing seed data')
-          process.exit(0)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    })
-    .catch(error => {
-      console.log(error)
-      console.log('fail to drop users collection')
-    })
+  // db.dropCollection('users')
+  //   .then(() => {
+  //     console.log('successfully dropping users collection')
+  //     const users = userData.data.map(user => ({
+  //       ...user,
+  //       password: bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null)
+  //     }))
+
+  //     User.insertMany(users)
+  //       .then(users => {
+  //         console.log('successfully writing seed data')
+  //         process.exit(0)
+  //       })
+  //       .catch(error => {
+  //         console.log(error)
+  //       })
+  //   })
+  //   .catch(error => {
+  //     console.log(error)
+  //     console.log('fail to drop users collection')
+  //   })
 })
