@@ -16,13 +16,22 @@ mongoose.connect(dbpath, { useNewUrlParser: true, useCreateIndex: true, useUnifi
 const db = mongoose.connection
 
 // 使用設定
+const whitelist = ['http://localhost:8080', 'http://localhost:3000', 'https://triptrip-backend.herokuapp.com', 'https://trip-trip.herokuapp.com']
+
 const corsOptions = {
-  origin: [
-    'http://localhost:8080',
-    'http://localhost:3000',
-    'https://triptrip-backend.herokuapp.com',
-    'https://trip-trip.herokuapp.com'
-  ],
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  // origin: [
+  //   'http://localhost:8080',
+  //   'http://localhost:3000',
+  //   'https://triptrip-backend.herokuapp.com',
+  //   'https://trip-trip.herokuapp.com'
+  // ],
   credentials: true,
   maxAge: 1728000
 }
