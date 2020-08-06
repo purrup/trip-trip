@@ -148,7 +148,7 @@ const userController = {
           to: email,
           subject: 'TripTrip 重設您的密碼',
           html: `<h2>點選以下的網址來重設您的密碼</h2>
-                <a href="https://triptrip-backend.herokuapp.com/users/validate_reset/${randomCode}">重設密碼</a>
+                <a href="https://trip-trip-backend.herokuapp.com/users/validate_reset/${randomCode}">重設密碼</a>
                 <p> TripTrip 管理團隊</p>`
         }
         transporter

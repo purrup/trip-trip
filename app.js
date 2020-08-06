@@ -16,7 +16,7 @@ mongoose.connect(dbpath, { useNewUrlParser: true, useCreateIndex: true, useUnifi
 const db = mongoose.connection
 
 // 使用設定
-// const whitelist = ['https://triptrip-backend.herokuapp.com', 'https://trip-trip.herokuapp.com']
+// const whitelist = ['https://trip-trip-backend.herokuapp.com', 'https://trip-trip.herokuapp.com']
 
 const corsOptions = {
   // origin: function (origin, callback) {
@@ -29,7 +29,7 @@ const corsOptions = {
   origin: [
     'http://localhost:8080',
     'http://localhost:3000',
-    'https://triptrip-backend.herokuapp.com',
+    'https://trip-trip-backend.herokuapp.com',
     'https://trip-trip.herokuapp.com'
   ],
   credentials: true,
