@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 8080
 const dbpath = process.env.MONGODB_URI || 'mongodb://localhost/trip-planer'
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()

@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.5c8175df613628a6bfb2556f11b39c38.js"
+  "/precache-manifest.93cf3f7860617cb56c9e28e524c9f374.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "triptrip"});
