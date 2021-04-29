@@ -12,16 +12,13 @@ db.on('error', () => {
 
 db.once('open', async () => {
   console.log('success:: connected to mongodb!')
-
+  const result = await Site.find({})
+  if (result.length !== 0) {
+    await Site.collection.drop()
+    console.log('Drop collection!')
+  }
   try {
-    const siteSeeds = await Site.db.db.listCollections({
-      name: 'sites'
-    }).toArray()
-    if (siteSeeds.length > 0) {
-      db.dropCollection('sites')
-      console.log('successfully dropping sites collection')
-    }
-
+    console.log('successfully dropping sites collection')
     // add city and village to site
     for (const site of siteData) {
       site.city = ''
@@ -47,9 +44,14 @@ db.once('open', async () => {
       village: site.village
     }))
     // insert to db
-    await Site.insertMany(sites)
-    console.log('successfully writing seed data')
-    process.exit(0)
+    Site.insertMany(sites)
+      .then(() => {
+        console.log('successfully writing seed data')
+        process.exit(0)
+      })
+      .catch(error => {
+        console.log(error)
+      })
   } catch (error) {
     console.log(error)
     console.log('fail to drop sites collection')
